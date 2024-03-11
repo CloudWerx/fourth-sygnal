@@ -210,7 +210,7 @@ class GcmPushkin(ConcurrencyLimitedPushkin):
         return cls(name, sygnal, config)
 
     async def _perform_http_request(
-        self, body: Dict[str, Any], headers: Dict[AnyStr, List[AnyStr]]
+        self, body: Dict[str, Any], headers: Dict[AnyStr, List[AnyStr]], log
     ) -> Tuple[IResponse, str]:
         """
         Perform an HTTP request to the FCM server with the body and headers
@@ -238,6 +238,7 @@ class GcmPushkin(ConcurrencyLimitedPushkin):
         try:
             with SEND_TIME_HISTOGRAM.time():
                 with ACTIVE_REQUESTS_GAUGE.track_inprogress():
+                    log.debug("**** [Cloudwerx] Making request: URI %s \n\nBody: %s, \n\nHeader: %s ***", url, json.dumps(body), json.dumps(headers))
                     response = await self.http_agent.request(
                         b"POST",
                         url,
@@ -245,6 +246,8 @@ class GcmPushkin(ConcurrencyLimitedPushkin):
                         bodyProducer=body_producer,
                     )
                     response_text = (await readBody(response)).decode()
+                    log.debug("*** [Cloudwerx] Response (code: %s): %s ***", response.code, response_text)
+
         except Exception as exception:
             raise TemporaryNotificationDispatchException(
                 "GCM request failure"
@@ -264,7 +267,7 @@ class GcmPushkin(ConcurrencyLimitedPushkin):
     ) -> Tuple[List[str], List[str]]:
         poke_start_time = time.time()
 
-        response, response_text = await self._perform_http_request(body, headers)
+        response, response_text = await self._perform_http_request(body, headers, log)
 
         RESPONSE_STATUS_CODES_COUNTER.labels(
             pushkin=self.name, code=response.code
@@ -669,7 +672,7 @@ class GcmPushkin(ConcurrencyLimitedPushkin):
                     data[attr] = data[attr][0:MAX_BYTES_PER_FIELD]
 
         if api_version is APIVersion.V1:
-            if "content" in data:
+            if isinstance(data.get("content"), dict):
                 for attr, value in data["content"].items():
                     if not isinstance(value, str):
                         continue

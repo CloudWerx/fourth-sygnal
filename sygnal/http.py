@@ -278,6 +278,7 @@ class V1NotifyHandler(Resource):
 
                 rejected += result
 
+            log.debug("*** [Cloudwerx] request.write(%s) *** ", json.dumps({"rejected": rejected}).encode())
             request.write(json.dumps({"rejected": rejected}).encode())
 
             if rejected:

@@ -13,7 +13,7 @@ FROM python:3.10-slim as builder
 
 # Install git; Sygnal uses it to obtain the package version from the state of the
 # git repository.
-RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y git vim
 
 # install sygnal and all of the python deps to /install.
 
