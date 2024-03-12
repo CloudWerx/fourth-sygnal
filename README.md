@@ -1,3 +1,42 @@
+# Fourth.io Specific notes
+
+## Example of curl request
+```bash
+curl --location --request POST 'https://synapse.sygnal.dev.myside.io/_matrix/push/v1/notify' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "notification": {
+    "event_id": "3957tyerfgewrf384",
+    "room_id": "!slw48wfj34rtnrf:example.org",
+    "type": "m.room.message",
+    "sender": "@exampleuser:example.org",
+    "sender_display_name": "Major Tom",
+    "room_name": "Mission Control",
+    "room_alias": "#exampleroom:example.org",
+    "prio": "high",
+    "content": {
+      "msgtype": "m.text",
+      "body": "I'\''m floating in a most peculiar way."
+    },
+    "counts": {
+      "unread": 2,
+      "missed_calls": 1
+    },
+    "devices": [
+      {
+        "app_id": "com.example.fourthiosynapsenotification",
+        "pushkey": "dCHLY09lRGChWR3tIHgeYR:APA91bGJNMsrUzy-jlcH3s5GWgESNppkc11dMSaNXbn06t7SuKmorC83crjAEkhlzli7gU4-JiFkU0IUS5HYcCWH5tOwGkPqZQsxbsnxX-Z1xva8FppIwQUlWMbaJIvgmzvMkENnXTVl",
+        "pushkey_ts": 1709942506,
+        "data": {},
+        "tweaks": {
+          "sound": "bing"
+        }
+      }
+    ]
+  }
+}'
+```
+
 Introduction
 ============
 
