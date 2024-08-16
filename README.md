@@ -25,7 +25,7 @@ curl --location --request POST 'https://synapse.sygnal.dev.myside.io/_matrix/pus
     "devices": [
       {
         "app_id": "com.example.fourthiosynapsenotification",
-        "pushkey": "dCHLY09lRGChWR3tIHgeYR:APA91bGJNMsrUzy-jlcH3s5GWgESNppkc11dMSaNXbn06t7SuKmorC83crjAEkhlzli7gU4-JiFkU0IUS5HYcCWH5tOwGkPqZQsxbsnxX-Z1xva8FppIwQUlWMbaJIvgmzvMkENnXTVl",
+        "pushkey": "[pushkey]",
         "pushkey_ts": 1709942506,
         "data": {},
         "tweaks": {
